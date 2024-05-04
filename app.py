@@ -20,21 +20,22 @@ def main():
             with open(file_path, "wb") as f:
                 f.write(uploaded_file.getvalue())  # Write the PDF content
             pdf_text = get_pdf_text(file_path)
-            pdf_frame = display_pdf(file_path)
-            st.sidebar.markdown(pdf_frame, unsafe_allow_html=True)
+            # pdf_frame = display_pdf(file_path)
+            # st.sidebar.markdown(pdf_frame, unsafe_allow_html=True)
+            st.sidebar.success("PDF uploaded successfully!")
     user_prompt = st.chat_input("What do you wanna know about the document?", disabled=state)
     if user_prompt:
         st.session_state.messages.append({'role': 'user', "content": user_prompt})
         with st.spinner("..."):
             response = get_response(pdf_text, user_prompt)
-            time.sleep(2)
             st.session_state.messages.append({'role': 'assistant', "content": response})
 
-    if st.sidebar.button(label="summarize"):
-        st.session_state.messages.append({'role': 'user', "content": "Summarize the document"})
-        with st.spinner("..."):
-            summary = summarize(pdf_text, max_length=200)
-            st.session_state.messages.append({'role': 'assistant', "content": "Summary:  <br>"+summary})
+    if state == False:
+        if st.sidebar.button(label="summarize"):
+            st.session_state.messages.append({'role': 'user', "content": "Summarize the document"})
+            with st.spinner("..."):
+                summary = summarize(pdf_text, max_length=200)
+                st.session_state.messages.append({'role': 'assistant', "content": "Summary:  <br>"+summary})
 
     for message in st.session_state.messages:
         with st.chat_message(message['role']):
