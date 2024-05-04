@@ -68,10 +68,10 @@ def make_prompt(query, relevant_passage):
   return prompt
 
 def get_response(content,query):
-  chunks = split_text(content)
-  chunks_df = chunks_to_dataframe(chunks)
-  relevant_passage = get_relevant_context(query,chunks_df)
-  prompt = make_prompt(query,relevant_passage)
+  # chunks = split_text(content)
+  # chunks_df = chunks_to_dataframe(chunks)
+  # relevant_passage = get_relevant_context(query,chunks_df)
+  prompt = make_prompt(query,content)
   model = genai.GenerativeModel(model_name='gemini-pro')
   response = model.generate_content(prompt)
   return response.text
@@ -86,4 +86,4 @@ def summarize(text,max_length):
 #   # Combine the summaries into a final summary
 #   final_summary = ' '.join(summaries)
 #   return final_summary
-  return "This is a summary of the document."
+  return get_response(text,"summarize this document")
