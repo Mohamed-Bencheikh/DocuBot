@@ -1,0 +1,7 @@
+streamlit
+# transformers
+pdfplumber
+# tensorflow
+# tf-keras
+google.generativeai
+python-dotenv
